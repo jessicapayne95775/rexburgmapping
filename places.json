@@ -28,13 +28,16 @@
     "lat" : 43.835852,
     "long": -111.780671},
     {"name": "BYU-Idaho Ropes Course" ,
-    "lat" : 43.852249,
-    "long": -111.785666},
+    "lat" : 43.809656,
+    "long": -111.786283},
     {"name": "Madison Gymnastics" ,
     "lat" : 43.831412,
     "long": -111.809872},
     {"name": "Rock Gym" ,
     "lat" : 43.830313,
-    "long": -111.810312}
+    "long": -111.810312},
+    {"name": "Rexburg Rapids",
+      "lat":43.831496,
+      "long":-111.785426}
     ]
 }

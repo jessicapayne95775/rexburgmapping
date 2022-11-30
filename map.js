@@ -20,8 +20,8 @@ require([
         var myView = new MapView({
             container: "viewDiv",  // HTML ID 
             map: myMap,        // BaseMap Created
-            zoom: 12.5 ,     // zoom in level
-            center : [-111.792824, 43.825386 ]   //start location     
+            zoom: 13,     // zoom in level
+            center: [-111.789622, 43.830379] //center of view of map
         });
 
 
@@ -43,7 +43,7 @@ require([
 
                     var marker = {
                         type: "simple-marker",
-                        style: "square",
+                        style: "circle",
                         color: place_color
                     };
 

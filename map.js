@@ -20,7 +20,7 @@ require([
         var myView = new MapView({
             container: "viewDiv",  // HTML ID 
             map: myMap,        // BaseMap Created
-            zoom: 6 ,     // zoom in level
+            zoom: 12.5 ,     // zoom in level
             center : [-111.792824, 43.825386 ]   //start location     
         });
 
@@ -30,58 +30,17 @@ require([
         var graphicsLayer = new GraphicsLayer();
         myMap.add(graphicsLayer);        
 
-        // // We will use the XMLHttpRequest object to read data from the USGS
-        // // server and populate graphics on our map based on the results
-        // // https://www.w3schools.com/js/js_ajax_http.asp
-        // //var xmlhttp = new XMLHttpRequest();
-        var placesJson = fetch("./placestemp.json").then(places => {
+        // pull information from the Json file 
+        var placesJson = fetch("./places.json").then(places => {
             places.json().then(data => {
-        
-
-
-        // // This long function below is what will happen when we get a result
-        // // The actual sending of the http request and reading response occurs
-        // // after the definition of this function.
-        // xmlhttp.onreadystatechange = function() {
-        //     // Did we get a response (4) and was the response successful (200)
-        //     if (this.readyState == 4 && this.status == 200) {
                 
-        //         // Convert the JSON text to JSON object that we
-        //         // can loop through
-        //         // The structure of the earthquake data can be found
-        //         // at the USGS website:
-        //         // https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
-                
-        //         // Loop through each feature in the features list
-                //for (feature of data.features) {    
+         // Loop through each feature in the json file 
                 for (var place of data.features) {
 
-                    // Determine symbol color based on the earthquake magnitude
-                    // var mag_color;
-                    // var mag = feature.properties.mag;
+                    // color of point marker
                     var place_color;
                     place_color = [50, 54, 168]
-                    // if (mag > 6) {
-                    //     mag_color = [168,78,50]; // Red
-                    //}
 
-                    // else if (mag > 4) {
-                    //     mag_color = [247,241,54]; // Yellow
-                    // }
-                    // else if (mag > 2) {
-                    //     mag_color = [52,168,50]; // Green
-                    // }
-                    // else {
-                    //     mag_color = [50, 54, 168]; // Blue
-                    // }
-
-                    // Create a marker
-                    // This JS map is expected by ArcGIS to make a graphic                 
-                    // var marker = {
-                    //     type: "simple-marker",
-                    //     style: "triangle",
-                    //     color: mag_color 
-                    // };
                     var marker = {
                         type: "simple-marker",
                         style: "square",
@@ -101,13 +60,11 @@ require([
                     // The template content also supports HTML tags.
                     var popup_attributes = {
                         name: place.name
-                        // mag: feature.properties.mag,
-                        // place: feature.properties.place
                     }
 
                     var popup_template = {
-                        title: "Things to do",
-                        content: "name: {name}"
+                        title: "Places To Go With Kids",
+                        content: "Name: {name}"
                     }
             
                     // Combine location and symbol to create a graphic object
@@ -125,41 +82,22 @@ require([
                 } // End of Loop
             
             })})
-         // End of XML Call back Function
 
-        // Time to actually send the GET request to the USGS.  When we get a response
-        // it will call and execute the function we defined above.
-        // xmlhttp.open("GET", "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", true);
-        // xmlhttp.send();
+        // Create a locate me button
+        var locate = new Locate({
+            view: myView,
+            useHeadingEnabled: false,
+            goToOverride: function(view, options) {
+                options.target.scale = 1000000;  // 1/1000000 scale
+                return view.goTo(options.target);
+              }
+        });
+        myView.ui.add(locate, "top-left");
 
-        // myView.popup.defaultPopupTemplateEnabled = true;   
-
-        // var volcanoLayer = new FeatureLayer({
-        //     url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/test_Significant_Global_Volcanic_Eruptions_1/FeatureServer"
-        // });
-
-        // var faultsLayer = new FeatureLayer({
-        //     url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/Sean_View_6/FeatureServer"
-        // });
-
-        // myMap.add(volcanoLayer);
-        // myMap.add(faultsLayer);
-
-        // // Create a locate me button
-        // var locate = new Locate({
-        //     view: myView,
-        //     useHeadingEnabled: false,
-        //     goToOverride: function(view, options) {
-        //         options.target.scale = 1000000;  // 1/1000000 scale
-        //         return view.goTo(options.target);
-        //       }
-        // });
-        // myView.ui.add(locate, "top-left");
-
-        // var search = new Search({
-        //     view: myView
-        // });
-        // myView.ui.add(search, "top-right"); 
+        var search = new Search({
+            view: myView
+        });
+        myView.ui.add(search, "top-right"); 
 
         // var legend = new Legend({
         //     view: myView,

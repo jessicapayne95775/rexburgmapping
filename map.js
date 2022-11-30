@@ -39,7 +39,7 @@ require([
 
                     // color of point marker
                     var place_color;
-                    place_color = [50, 54, 168]
+                    place_color = [50, 54, 168] //blue
 
                     var marker = {
                         type: "simple-marker",

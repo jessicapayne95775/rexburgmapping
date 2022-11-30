@@ -1,4 +1,4 @@
-import myJson from './places.json' assert {type: 'json'};
+
 require([
     "esri/Map",
     "esri/views/MapView",
@@ -20,7 +20,8 @@ require([
         var myView = new MapView({
             container: "viewDiv",  // HTML ID 
             map: myMap,        // BaseMap Created
-            zoom: 6               // zoom in level
+            zoom: 6 ,     // zoom in level
+            center : [-111.792824, 43.825386 ]   //start location     
         });
 
 
@@ -33,7 +34,8 @@ require([
         // // server and populate graphics on our map based on the results
         // // https://www.w3schools.com/js/js_ajax_http.asp
         // //var xmlhttp = new XMLHttpRequest();
-        var placesJson = fetch("./places.json").then(places => {return places.json();})
+        var placesJson = fetch("./placestemp.json").then(places => {
+            places.json().then(data => {
         
 
 
@@ -46,15 +48,13 @@ require([
                 
         //         // Convert the JSON text to JSON object that we
         //         // can loop through
-        //         var data = JSON.parse(this.responseText);
-        placesJson =  placesJson.parse();
         //         // The structure of the earthquake data can be found
         //         // at the USGS website:
         //         // https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
                 
         //         // Loop through each feature in the features list
                 //for (feature of data.features) {    
-                for (place of places.feature) {
+                for (var place of data.features) {
 
                     // Determine symbol color based on the earthquake magnitude
                     // var mag_color;
@@ -92,21 +92,22 @@ require([
                     // This JS map is expected by ArcGIS to make a graphic
                     var location = {
                         type: "point",
-                        longitude: feature.geometry.coordinates[0],
-                        latitude: feature.geometry.coordinates[1]
+                        longitude: place.long,
+                        latitude: place.lat
                     };
 
                     // Define attributes for us in popup template.  The popup
                     // template uses {}'s to access items in the attributes map.
                     // The template content also supports HTML tags.
                     var popup_attributes = {
-                        mag: feature.properties.mag,
-                        place: feature.properties.place
+                        name: place.name
+                        // mag: feature.properties.mag,
+                        // place: feature.properties.place
                     }
 
                     var popup_template = {
-                        title: "Earthquake",
-                        content: "<br>Mag</b>: {mag}<br><b>Location</b>: {place}"
+                        title: "Things to do",
+                        content: "name: {name}"
                     }
             
                     // Combine location and symbol to create a graphic object
@@ -122,54 +123,54 @@ require([
                     graphicsLayer.add(graphic);
 
                 } // End of Loop
-
-            }
-        }; // End of XML Call back Function
+            
+            })})
+         // End of XML Call back Function
 
         // Time to actually send the GET request to the USGS.  When we get a response
         // it will call and execute the function we defined above.
-        xmlhttp.open("GET", "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", true);
-        xmlhttp.send();
+        // xmlhttp.open("GET", "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", true);
+        // xmlhttp.send();
 
-        myView.popup.defaultPopupTemplateEnabled = true;   
+        // myView.popup.defaultPopupTemplateEnabled = true;   
 
-        var volcanoLayer = new FeatureLayer({
-            url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/test_Significant_Global_Volcanic_Eruptions_1/FeatureServer"
-        });
+        // var volcanoLayer = new FeatureLayer({
+        //     url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/test_Significant_Global_Volcanic_Eruptions_1/FeatureServer"
+        // });
 
-        var faultsLayer = new FeatureLayer({
-            url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/Sean_View_6/FeatureServer"
-        });
+        // var faultsLayer = new FeatureLayer({
+        //     url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/Sean_View_6/FeatureServer"
+        // });
 
-        myMap.add(volcanoLayer);
-        myMap.add(faultsLayer);
+        // myMap.add(volcanoLayer);
+        // myMap.add(faultsLayer);
 
-        // Create a locate me button
-        var locate = new Locate({
-            view: myView,
-            useHeadingEnabled: false,
-            goToOverride: function(view, options) {
-                options.target.scale = 1000000;  // 1/1000000 scale
-                return view.goTo(options.target);
-              }
-        });
-        myView.ui.add(locate, "top-left");
+        // // Create a locate me button
+        // var locate = new Locate({
+        //     view: myView,
+        //     useHeadingEnabled: false,
+        //     goToOverride: function(view, options) {
+        //         options.target.scale = 1000000;  // 1/1000000 scale
+        //         return view.goTo(options.target);
+        //       }
+        // });
+        // myView.ui.add(locate, "top-left");
 
-        var search = new Search({
-            view: myView
-        });
-        myView.ui.add(search, "top-right"); 
+        // var search = new Search({
+        //     view: myView
+        // });
+        // myView.ui.add(search, "top-right"); 
 
-        var legend = new Legend({
-            view: myView,
-            layerInfos: [{
-                layer: volcanoLayer,
-                title: "Volcano Legend"
-            }, {
-                layer: faultsLayer,
-                title: "Faults Legend"
-            }]
-        });
-        myView.ui.add(legend, "bottom-left");
+        // var legend = new Legend({
+        //     view: myView,
+        //     layerInfos: [{
+        //         layer: volcanoLayer,
+        //         title: "Volcano Legend"
+        //     }, {
+        //         layer: faultsLayer,
+        //         title: "Faults Legend"
+        //     }]
+        // });
+        // myView.ui.add(legend, "bottom-left");
 
 });

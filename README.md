@@ -1,30 +1,22 @@
 # Overview
 
-{Important!  Do not say in this section that this is college assignment.  Talk about what you are trying to accomplish as a software engineer to further your learning.}
+This is a mapping software that has locations to take kids for things to do in Rexburg, Idaho. I wrote this software to benefit parents, including myself, to help to know what to do and where to go in Rexburg to have a fun, wholesome, recreational time. There are many features besides just the points on a map. If you click on a point, a pop-up description of the place will come up. There is also a "locate me" feature that always you to see where your current location on the map is so you can see what is close to you. Lastly there is a search bar in the upper right corner to search for addresses to also conveniently see how far the points are from the specified address. This was the start to learning arcGIS mapping and I plan to continue my learning and progress to improve myself as a software engineer.
 
-{Provide a description the map software that you wrote. Describe how to use your software.  Describe the source of the data that you used.}
-
-{Describe your purpose for writing this software.}
-
-{Provide a link to your YouTube demonstration.  It should be a 4-5 minute demo of the software running and a walkthrough of the code.}
-
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/968aQmgntrw)
 
 # Development Environment
 
-{Describe the tools that you used to develop the software}
+I used visual studio code for my IDE and Github for my version control. Coordinates for the locations were pulled from google maps by clicking a point.
 
-{Describe the programming language that you used and any libraries.}
+This software was written with html, javascript, and json. The html and javascript displays the map while the json holds the names and coordinates for the locations. esri library was also used to generate the map attributes.
 
 # Useful Websites
 
-{Make a list of websites that you found helpful in this project}
-* [Web Site Name](http://url.link.goes.here)
-* [Web Site Name](http://url.link.goes.here)
+* [reqbin fetching a JSON](https://reqbin.com/code/javascript/wc3qbk0b/javascript-fetch-json-example)
+* [arcGIS documentation](https://doc.arcgis.com/en/)
 
 # Future Work
 
-{Make a list of things that you need to fix, improve, and add in the future.}
-* Item 1
-* Item 2
-* Item 3
+* Food places near the selected point
+* Distance from current location
+* More locations and better descriptions
